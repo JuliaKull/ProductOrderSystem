@@ -32,4 +32,10 @@ public class ProductController {
         productService.create(product);
         return new ResponseEntity<>(product,HttpStatus.OK);
     }
+
+    @DeleteMapping("/delete-product")
+    public ResponseEntity<?> deleteProduct(@RequestBody ProductDTO product) {
+        productService.delete(product);
+        return ResponseEntity.ok(product);
+    }
 }

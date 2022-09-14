@@ -13,8 +13,6 @@ public interface CustomerOrderService {
 
     void create(CustomerOrderDTO customerOrder);
 
-    void createAll(CustomerOrdersDTO customerOrderDtos);
-
     List<CustomerOrderDTO> getAll();
 
     List<CustomerOrderDTO> findAllBySubmissionDate(ZonedDateTime submissionDate);

@@ -50,24 +50,6 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
     }
 
 
-    @Override
-    public void createAll(CustomerOrdersDTO customerOrderDtos) {
-        customerOrderDtos.getCustomerOrders().forEach(orderDto->{
-            final CustomerOrder customerOrder= createOrder(orderDto.getCustomer().getEmail());
-
-            orderDto.getOrderLines().forEach((orderLineDTO -> {
-                final ProductDTO productDTO = orderLineDTO.getProduct();
-
-                orderLineRepository.save(OrderLine.builder()
-                                .quantity(orderLineDTO.getQuantity())
-                                .product(getOrCreateProduct(productDTO.getSkuCode(),
-                                        productDTO.getName(),
-                                        productDTO.getUnitPrice()))
-                                .customerOrder(customerOrder)
-                        .build());
-            }));
-        });
-    }
     private static String generateOrderNumber(){
         return UUID.randomUUID().toString().substring(0,19);
     }

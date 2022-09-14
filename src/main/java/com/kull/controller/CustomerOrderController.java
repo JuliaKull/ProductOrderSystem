@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @RequestMapping("/customer-order")
@@ -23,12 +24,6 @@ public class CustomerOrderController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @PostMapping("/create-all")
-    public ResponseEntity<?>createAll(@RequestBody CustomerOrdersDTO customerOrders){
-        customerOrderService.createAll(customerOrders);
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
     @GetMapping("/all")
     public List<CustomerOrderDTO> getAll(){
         return customerOrderService.getAll();
@@ -38,4 +33,11 @@ public class CustomerOrderController {
     public List<CustomerOrderDTO> getAllByCustomer(@RequestBody CustomerDTO customer){
         return customerOrderService.findAllByCustomer(customer);
     }
+
+    @GetMapping("/all-date")
+    public List<CustomerOrderDTO> getAllBySubmissionDate(@RequestBody ZonedDateTime submissionDate){
+        return customerOrderService.findAllBySubmissionDate(submissionDate);
+    }
+
+
 }
