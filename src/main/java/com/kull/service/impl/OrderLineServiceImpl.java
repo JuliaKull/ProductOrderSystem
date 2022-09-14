@@ -21,6 +21,9 @@ public class OrderLineServiceImpl implements OrderLineService {
     private WebMapper<OrderLineDTO, OrderLine> webMapper;
 
     @Autowired
+    private WebMapper<ProductDTO, Product> webMapperProduct;
+
+    @Autowired
     private OrderLineRepository orderLineRepository;
 
     @Override
@@ -45,5 +48,11 @@ public class OrderLineServiceImpl implements OrderLineService {
     @Override
     public List<OrderLineDTO> getAll() {
         return webMapper.toDtos(orderLineRepository.findAll());
+    }
+
+    @Override
+    public List<OrderLineDTO> getAllByProduct(ProductDTO product) {
+        final Product productEntity = webMapperProduct.toEntity(product);
+        return webMapper.toDtos(orderLineRepository.findAllByProduct(productEntity));
     }
 }

@@ -1,5 +1,6 @@
 package com.kull.service.impl;
 
+import com.kull.dto.CustomerDTO;
 import com.kull.dto.CustomerOrderDTO;
 import com.kull.dto.CustomerOrdersDTO;
 import com.kull.dto.ProductDTO;
@@ -27,7 +28,8 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
 
     @Autowired
     private WebMapper<CustomerOrderDTO, CustomerOrder> mapper;
-
+    @Autowired
+    private WebMapper<CustomerDTO, Customer> mapperCustomer;
     @Autowired
     private CustomerOrderRepository repository;
 
@@ -103,4 +105,17 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
     public List<CustomerOrderDTO> getAll() {
         return mapper.toDtos(repository.findAll());
     }
+
+    @Override
+    public List<CustomerOrderDTO> findAllBySubmissionDate(ZonedDateTime submissionDate) {
+        return mapper.toDtos(repository.findAllBySubmissionDate(submissionDate));
+    }
+
+    @Override
+    public List<CustomerOrderDTO> findAllByCustomer(CustomerDTO customer) {
+        Customer customerEntity = mapperCustomer.toEntity(customer);
+        return mapper.toDtos(repository.findAllByCustomer(customerEntity));
+    }
+
+
 }

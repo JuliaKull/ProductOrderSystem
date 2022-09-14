@@ -1,7 +1,6 @@
 package com.kull.controller;
 
-import com.kull.dto.CustomerOrderDTO;
-import com.kull.dto.CustomerOrdersDTO;
+import com.kull.dto.*;
 import com.kull.service.CustomerOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,5 +32,10 @@ public class CustomerOrderController {
     @GetMapping("/all")
     public List<CustomerOrderDTO> getAll(){
         return customerOrderService.getAll();
+    }
+
+    @GetMapping("/all-customers")
+    public List<CustomerOrderDTO> getAllByCustomer(@RequestBody CustomerDTO customer){
+        return customerOrderService.findAllByCustomer(customer);
     }
 }

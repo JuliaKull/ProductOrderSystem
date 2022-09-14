@@ -1,6 +1,7 @@
 package com.kull.controller;
 
 import com.kull.dto.OrderLineDTO;
+import com.kull.dto.ProductDTO;
 import com.kull.service.OrderLineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,5 +32,10 @@ public class OrderLineController {
     public ResponseEntity<?> update (@RequestBody OrderLineDTO orderLine){
         final OrderLineDTO updatedOrderLine = orderLineService.update(orderLine);
         return new ResponseEntity<>(updatedOrderLine,HttpStatus.OK);
+    }
+
+    @GetMapping("/all-products")
+    public List<OrderLineDTO> getAllByProduct(@RequestBody ProductDTO product){
+        return orderLineService.getAllByProduct(product);
     }
 }
