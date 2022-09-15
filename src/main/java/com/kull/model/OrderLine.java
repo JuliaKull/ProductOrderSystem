@@ -26,7 +26,7 @@ public class OrderLine extends AbstractBaseEntity{
 
     private int quantity;
 
-    @ManyToOne(cascade = ALL, fetch = EAGER)
+    @ManyToOne(cascade = ALL)
     @JoinColumn(name = "customer_order_id")
     private CustomerOrder customerOrder;
 }

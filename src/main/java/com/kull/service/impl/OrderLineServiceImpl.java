@@ -1,16 +1,15 @@
 package com.kull.service.impl;
 
-import com.kull.dto.CustomerOrderDTO;
 import com.kull.dto.OrderLineDTO;
 import com.kull.dto.ProductDTO;
 import com.kull.mapper.WebMapper;
-import com.kull.model.CustomerOrder;
 import com.kull.model.OrderLine;
 import com.kull.model.Product;
 import com.kull.repository.OrderLineRepository;
 import com.kull.service.OrderLineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -32,6 +31,7 @@ public class OrderLineServiceImpl implements OrderLineService {
         orderLineRepository.save(entity);
     }
 
+    @Transactional
     @Override
     public OrderLineDTO update(OrderLineDTO orderLine) {
         OrderLine customerOrderFromDb = orderLineRepository.findByCustomerOrder(orderLine.getCustomerOrder());

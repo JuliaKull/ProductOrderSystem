@@ -25,7 +25,7 @@ public class CustomerOrder extends AbstractBaseEntity{
     private String orderNumber;
 
     @ToString.Exclude
-    @ManyToOne(cascade = ALL, fetch = EAGER)
+    @ManyToOne(cascade = ALL)
     @JoinColumn(name = "customer_id")
     private Customer customer;
 

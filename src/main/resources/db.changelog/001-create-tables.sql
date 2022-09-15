@@ -29,7 +29,7 @@ create table if not exists product
     unit_price int                 not null
     );
 
-create table if not exists orderLine
+create table if not exists order_line
 (
     id                serial primary key,
     product_id        int not null,

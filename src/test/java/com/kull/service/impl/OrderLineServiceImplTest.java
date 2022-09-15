@@ -23,6 +23,7 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,17 +43,9 @@ import static org.mockito.Mockito.when;
 @MockitoSettings(strictness = Strictness.LENIENT)
 class OrderLineServiceImplTest {
 
-    @Autowired
-    private OrderLineServiceImpl orderLineServiceImpl;
-
-    @MockBean
-    private WebMapper<ProductDTO, Product> webMapper1;
 
     @Mock
     private WebMapper<OrderLineDTO, OrderLine> webMapper;
-
-    @Mock
-    private WebMapper<ProductDTO, Product> webMapperProduct;
 
     @Mock
     private OrderLineRepository orderLineRepository;
@@ -74,44 +67,31 @@ class OrderLineServiceImplTest {
         verify(webMapper).toEntity((OrderLineDTO) any());
     }
 
-
-    /**
-     * Method under test: {@link OrderLineServiceImpl#update(OrderLineDTO)}
-     */
     @Test
-    void testUpdate2() {
+    void updateOrderLine() {
+        Product product = Product.builder()
+                .name("Test")
+                .unitPrice(1)
+                .skuCode(1)
+                .orderLines(new ArrayList<>())
+                .build();
+      CustomerOrder customerOrder = CustomerOrder.builder()
+                .customer(new Customer())
+                .orderNumber("1")
+                .submissionDate(ZonedDateTime.now())
+                .build();
+        OrderLine orderLine = OrderLine.builder()
+                .customerOrder(customerOrder)
+                .quantity(1)
+                .product(product)
+                .build();
+        orderLineRepository.save(orderLine);
+        when(orderLineRepository.findByCustomerOrder(any())).thenReturn(orderLine);
+        orderLine.setQuantity(2);
+        orderLineRepository.save(orderLine);
+        verify(orderLineRepository).findByCustomerOrder(any());
 
-        Customer customer = new Customer();
-        customer.setCustomerOrders(new ArrayList<>());
-        customer.setEmail("jane.doe@example.org");
-        customer.setFirstName("Jane");
-        customer.setId(123L);
-        customer.setLastName("Doe");
-        customer.setRegistrationCode(BigInteger.valueOf(42L));
-        customer.setTelephone("4105551212");
-
-        CustomerOrder customerOrder = new CustomerOrder();
-        customerOrder.setCustomer(customer);
-        customerOrder.setId(123L);
-        customerOrder.setOrderNumber("42");
-        customerOrder.setSubmissionDate(null);
-
-        Product product = new Product();
-        product.setId(123L);
-        product.setName("Name");
-        product.setOrderLines(new ArrayList<>());
-        product.setSkuCode(1);
-        product.setUnitPrice(1);
-
-        OrderLine orderLine = new OrderLine();
-        orderLine.setCustomerOrder(customerOrder);
-        orderLine.setId(123L);
-        orderLine.setProduct(product);
-        orderLine.setQuantity(1);
-        when(orderLineRepository.findByCustomerOrder((Integer) org.mockito.Mockito.any())).thenReturn(orderLine);
-        orderLineServiceImpl.update(null);
     }
-
 
 
     @Test

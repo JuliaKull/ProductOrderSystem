@@ -3,14 +3,15 @@ package com.kull.service.impl;
 import com.kull.dto.CustomerDTO;
 import com.kull.mapper.WebMapper;
 import com.kull.model.Customer;
-import com.kull.model.CustomerOrder;
 import com.kull.repository.CustomerRepository;
 import com.kull.service.CustomerService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+@Slf4j
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
@@ -27,15 +28,17 @@ public class CustomerServiceImpl implements CustomerService {
         repository.save(entity);
     }
 
+    @Transactional
     @Override
     public CustomerDTO update(CustomerDTO customer) {
         final String email = customer.getEmail();
-        if(email==null || email.isEmpty()){
+        if (email == null || email.isEmpty()) {
             throw new RuntimeException("Email should be not Null or Empty!");
         }
         Customer customerFromDb = repository.findByEmail(email);
-        if(customerFromDb == null){
+        if (customerFromDb == null) {
             String message = "Customer with email = " + email + "does not exist!";
+            log.warn(message);
             throw new RuntimeException(message);
         }
         customerFromDb.setFirstName(customer.getFirstName());
@@ -52,7 +55,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Transactional
     @Override
-    public void delete(String email){
+    public void delete(String email) {
         repository.deleteByEmail(email);
     }
 }

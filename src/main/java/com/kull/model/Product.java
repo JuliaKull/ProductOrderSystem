@@ -10,6 +10,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.List;
 
+import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.EAGER;
 
 @AllArgsConstructor
@@ -34,7 +35,7 @@ public class Product extends AbstractBaseEntity{
     @Column(name = "unit_price")
     private Integer unitPrice;
 
-    @OneToMany(fetch = EAGER, mappedBy = "product")
+    @OneToMany(fetch = EAGER, mappedBy = "product",cascade = ALL)
     private List<OrderLine> orderLines;
 
 }

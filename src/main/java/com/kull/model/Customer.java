@@ -3,7 +3,9 @@ package com.kull.model;
 
 import jdk.jfr.Name;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -11,8 +13,10 @@ import javax.validation.constraints.Size;
 import java.math.BigInteger;
 import java.util.List;
 
+import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.FetchType.LAZY;
+import static org.hibernate.annotations.CascadeType.SAVE_UPDATE;
 
 @Builder
 @Getter
@@ -42,7 +46,7 @@ public class Customer extends AbstractBaseEntity{
 
     @ToString.Exclude
     @OneToMany(mappedBy = "customer",
-            cascade = PERSIST,
-            fetch = LAZY)
+            orphanRemoval = true)
+    @Cascade(SAVE_UPDATE)
     private List<CustomerOrder> customerOrders;
 }
